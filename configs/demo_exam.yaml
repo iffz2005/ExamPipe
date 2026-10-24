@@ -1,0 +1,48 @@
+# Demo course config (fully synthetic: invented exam, invented structure).
+#
+# One YAML file describes one "course": how many questions a paper has, which
+# sections own which question numbers, the allowed labels (sub-sections and
+# their aliases), and the rules the validator should enforce.
+# To support a new exam you add a new YAML file, not new code.
+
+course_id: demo_exam
+display_name: "Demo Aptitude Exam (synthetic)"
+total_questions: 30
+
+answers_allowed: ["1", "2", "3", "4", "UNCERTAIN"]
+difficulties: ["Easy", "Medium", "Hard"]
+
+explanation:
+  min_sentences: 3
+  max_sentences: 5
+
+sections:
+  - key: MATH
+    name: "Mathematics"
+    start: 1
+    end: 10
+    subsections:
+      - {serial: 1, code: PCT, name: "Percentage",           aliases: ["percent", "percentages", "percentage problems"]}
+      - {serial: 2, code: RAT, name: "Ratio and Proportion", aliases: ["ratio", "ratios", "ratio & proportion", "proportion"]}
+      - {serial: 3, code: TWK, name: "Time and Work",         aliases: ["work and time", "time & work"]}
+      - {serial: 4, code: SI,  name: "Simple Interest",       aliases: ["interest", "si"]}
+
+  - key: REAS
+    name: "Reasoning"
+    start: 11
+    end: 20
+    subsections:
+      - {serial: 1, code: SER, name: "Number Series",     aliases: ["series", "number and letter series", "letter series"]}
+      - {serial: 2, code: ANA, name: "Analogies",         aliases: ["analogy"]}
+      - {serial: 3, code: COD, name: "Coding and Decoding", aliases: ["coding-decoding", "coding & decoding"]}
+      - {serial: 4, code: SYL, name: "Syllogism",         aliases: ["syllogisms"]}
+
+  - key: GK
+    name: "General Knowledge"
+    start: 21
+    end: 30
+    subsections:
+      - {serial: 1, code: GEO, name: "Geography",       aliases: ["world geography"]}
+      - {serial: 2, code: HIS, name: "History",         aliases: ["world history"]}
+      - {serial: 3, code: SCI, name: "General Science", aliases: ["science"]}
+      - {serial: 4, code: COM, name: "Computers",       aliases: ["computer basics", "basics of computers"]}

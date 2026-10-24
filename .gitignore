@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Secrets
+.env
+
+# Real exam material and generated outputs must never be committed.
+# Only the synthetic text files in sample_data/ belong in this repo.
+data/
+runs/
+images_out/
+*.pdf
+*.docx
+*.xlsx
+*.xls
+
+# Private course configs (real taxonomies / alias tables) stay on your machine.
+configs/private/
