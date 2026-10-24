@@ -105,11 +105,36 @@ synth.py      seeded generator of synthetic demo papers
 cli.py        `exampipe validate | build | sample`
 ```
 
+### The pipeline as an assembly line
+
+```
+ paper.txt ──► [io.py] ──► [validate.py] ──► [split.py] ──► [merge.py] ──► [export.py] ──► Excel files
+   text        parse        check rules      sort by topic   combine        pack
+                              ▲
+        config.py loads the rulebook and feeds it to the steps above
+        normalize.py and katex.py are helpers used by validate
+        cli.py is the control panel that starts the line
+        schema.py defines what "one question" looks like
+```
+
+Each file has one job, so a change in one place does not ripple through the rest.
+
+### Reading the code
+
+Follow the pipeline instead of reading alphabetically:
+
+1. `schema.py`: what a question is (short)
+2. `io.py`: how text becomes questions
+3. `config.py`: how the rulebook is loaded
+4. `validate.py`: the rules (the longest file, so read it in pieces)
+5. `split.py`, `merge.py`, `export.py`: short files
+6. `cli.py`: how it all gets started
+
 Design choices and known limits are in [docs/design.md](docs/design.md). In short: one YAML per course and no course-specific code; validators return issues instead of raising, so one run reports a whole paper; labels are normalized so visually identical strings actually match.
 
 ## Adding a new course
 
-Copy `configs/demo_exam.yaml`, change the sections, number ranges, sub-sections and aliases, and run `exampipe validate paper.txt --course your_config.yaml`. The loader rejects configs whose sections leave gaps or whose aliases collide. Keep real or private configs in `configs/private/`, which is git-ignored.
+Copy `configs/demo_exam.yaml`, change the sections, number ranges, sub-sections and aliases, and run `exampipe validate paper.txt --course your_config.yaml`. If a paper has a different number of questions, change `total_questions` **and** the section `start`/`end` ranges together: the loader rejects configs whose sections do not add up to the total, leave gaps, or whose aliases collide. Keep real or private configs in `configs/private/`, which is git-ignored.
 
 ## Roadmap
 
