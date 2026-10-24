@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Config-driven validation and processing toolkit for exam question banks"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["pydantic>=2.5", "pyyaml>=6.0"]
+dependencies = ["pydantic>=2.5", "pyyaml>=6.0", "openpyxl>=3.1"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]

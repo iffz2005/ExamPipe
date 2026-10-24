@@ -38,6 +38,31 @@ A missing answer option is wrong. A one-sentence explanation or an
 `{{Image}}` placeholder might be fine but deserves a look. `--strict` turns
 warnings into failures for CI.
 
+**5. A build that hides errors is worse than no build.**
+`build` validates first and writes nothing if any paper has errors. A bank
+made from half-broken papers looks complete and is not, and the damage shows
+up later, far from its cause. `--allow-errors` exists for deliberate use.
+
+**6. Nothing is dropped silently.**
+Rows whose sub-section label is unknown are kept and written to
+`_unmapped.xlsx`. Merging keeps the paper id on every row so any question can
+be traced back to its source.
+
+**7. Natural sort for paper ids.**
+Plain string sorting puts `P10` before `P2`. `natural_key` splits ids into text
+and number pieces so numbers compare as numbers.
+
+**8. Excel is an output, not a trusted format.**
+Cells that begin with `=` would be evaluated as formulas when the file is
+opened, so they are stored as text. Control characters Excel cannot store are
+removed, and `UNCERTAIN` answers are kept as text instead of becoming blanks.
+
+**9. Synthetic data is generated, not typed.**
+`synth.make_paper(seed)` is deterministic. Arithmetic answers are computed
+from the numbers in the question, and tests recompute them independently, so
+the demo bank is correct by construction and later stages (search,
+duplicate detection, evaluation) get as much data as they need.
+
 ## Known limits (stated honestly)
 
 - The KaTeX checks are *structural* (balanced `$`, braces, no edge spaces, no
@@ -51,8 +76,8 @@ warnings into failures for CI.
 
 ## Roadmap
 
-1. Split a validated paper by sub-section and merge papers into a bank
-   (config-driven; Excel export).
+1. ~~Split a validated paper by sub-section and merge papers into a bank
+   (config-driven; Excel export).~~ Done.
 2. Optional extraction step that calls an LLM with a structured-output schema,
    feeds failures back for repair, and writes unresolved rows to a review file.
 3. Evaluation harness: a small hand-checked gold set, field-level accuracy,

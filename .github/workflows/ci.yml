@@ -21,3 +21,8 @@ jobs:
         run: |
           exampipe validate sample_data/demo_paper_clean.txt --course configs/demo_exam.yaml --strict
           ! exampipe validate sample_data/demo_paper_broken.txt --course configs/demo_exam.yaml
+          exampipe validate sample_data/papers/demo_paper_01.txt --course configs/demo_exam.yaml --strict
+          exampipe build "sample_data/papers/*.txt" --course configs/demo_exam.yaml --out build_out
+          test "$(find build_out -name '*.xlsx' | wc -l)" -eq 12
+          ! exampipe build sample_data/demo_paper_broken.txt --course configs/demo_exam.yaml --out should_not_exist
+          test ! -e should_not_exist
